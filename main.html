@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+    <title>AG's Breakout</title>
+</head>
+
+<body>
+    <canvas id="main-canvas"></canvas>
+</body>
+
+<script type="module">
+
+    function draw(ctx, canvas, paddle) {
+        ctx.fillStyle = "#001200"
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = paddle.color
+        ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height)
+    }
+    function update() {
+    }
+
+    function init() {
+        const canvas = document.querySelector("#main-canvas")
+        const ctx = canvas.getContext("2d")
+        canvas.width = 640
+        canvas.height = 480
+
+        let paddle = {
+            x: canvas.width / 2 - 100 / 2,
+            y: 0.9 * canvas.height,
+            width: 100,
+            height: 24,
+            color: "red"
+        }
+        return [canvas, ctx, paddle]
+    }
+
+    function main(canvas, ctx, paddle) {
+        update()
+        draw(ctx, canvas, paddle)
+        requestAnimationFrame(() => {
+            main(canvas, ctx, paddle)
+        })
+    }
+    let [canvas, ctx, paddle] = init()
+    main(canvas, ctx, paddle)
+    canvas.addEventListener("mousemove", (e) => {
+        paddle.x = e.clientX
+    })
+</script>
